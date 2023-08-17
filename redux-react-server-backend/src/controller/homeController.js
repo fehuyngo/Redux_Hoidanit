@@ -49,7 +49,7 @@ const handleUserGetAPI = async (req, res) => {
     setTimeout(async () => {
         let userList = await userService.getUserList();
         return res.status(200).json(userList);
-    }, 100)
+    }, 500)
 
 }
 
@@ -74,7 +74,7 @@ const handleCreateNewUserAPI = async (req, res) => {
             message: `A new User is created successfully!`,
             errCode: 0
         })
-    }, 5000)
+    }, 100)
 }
 
 module.exports = {

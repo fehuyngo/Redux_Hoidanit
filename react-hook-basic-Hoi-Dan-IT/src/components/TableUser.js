@@ -8,8 +8,7 @@ import { fetchAllUsers } from "../action/actions";
 const TableUser = () => {
   // const [listUsers, setListUsers] = useState();
   const dispatch = useDispatch();
-  const listUsers = useSelector((state) => state.user.listUsers);
-  console.log("test");
+  const { listUsers, isLoading, isError } = useSelector((state) => state.user);
   // const fetchAllUser = async () => {
   //   const res = await axios.get("http://localhost:8080/users/all");
   //   const data = res && res.data ? res.data : [];
@@ -38,25 +37,41 @@ const TableUser = () => {
             </tr>
           </thead>
           <tbody>
-            {listUsers &&
-              listUsers.length > 0 &&
-              listUsers.map((item, index) => {
-                return (
-                  <tr key={`users-${index}`}>
-                    <td>{index + 1}</td>
-                    <td>{item.email}</td>
-                    <td>{item.username}</td>
-                    <td>
-                      <button
-                        className="btn btn-danger"
-                        onClick={() => handleDeleteUser(item)}
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
+            {isError ? (
+              <>
+                <div>Something wrongs, please try again...</div>
+              </>
+            ) : (
+              <>
+                {isLoading ? (
+                  <>
+                    <div>Loading data...</div>
+                  </>
+                ) : (
+                  <>
+                    {listUsers &&
+                      listUsers.length > 0 &&
+                      listUsers.map((item, index) => {
+                        return (
+                          <tr key={`users-${index}`}>
+                            <td>{index + 1}</td>
+                            <td>{item.email}</td>
+                            <td>{item.username}</td>
+                            <td>
+                              <button
+                                className="btn btn-danger"
+                                onClick={() => handleDeleteUser(item)}
+                              >
+                                Delete
+                              </button>
+                            </td>
+                          </tr>
+                        );
+                    })}
+                  </>
+                )}
+              </>
+            )}
           </tbody>
         </Table>
       </Container>
