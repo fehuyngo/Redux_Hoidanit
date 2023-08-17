@@ -4,6 +4,7 @@ import {
   CREATE_USERS_REQUEST,
   CREATE_USERS_SUCCESS,
   DECREMENT,
+  DELETE_USERS_SUCCESS,
   FETCH_USERS_ERROR,
   FETCH_USERS_REQUEST,
   FETCH_USERS_SUCCESS,
@@ -86,5 +87,25 @@ export const createUsersSuccess = () => {
 export const createUsersError = () => {
   return {
     type: CREATE_USERS_ERROR,
+  };
+};
+
+export const deleteUserRedux = (id) => {
+  return async (dispatch, getState) => {
+    try {
+      const res = await axios.post(`http://localhost:8080/users/delete/${id}`);
+      if (res && res.data.errCode === 0) {
+        dispatch(deleteUsersSuccess());
+        dispatch(fetchAllUsers());
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const deleteUsersSuccess = () => {
+  return {
+    type: DELETE_USERS_SUCCESS,
   };
 };
