@@ -1,4 +1,13 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import axios from 'axios';
+
+const fetchUserById = createAsyncThunk(
+    'users/fetchByIdStatus',
+    async (userId, thunkAPI) => {
+        const response = await axios.get("http://localhost:8080/users/all");
+        return response.data
+    }
+)
 
 const initialState = {
   value: 0,
@@ -22,6 +31,11 @@ export const counterSlice = createSlice({
       state.value += action.payload
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(fetchUserById.fulfilled, (state, action) => {
+        // state.entities.push(action.payload);
+    })
+  }
 })
 
 // Action creators are generated for each case reducer function
